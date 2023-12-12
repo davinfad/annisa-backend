@@ -10,7 +10,7 @@ import (
 func InitDb() (*sql.DB, error) {
 
 	if _, exists := os.LookupEnv("RAILWAY_ENVIRONMENT"); exists == false {
-		if err := godotenv.Load("../.env"); err != nil {
+		if err := godotenv.Load(); err != nil {
 			log.Fatal("error loading .env file:", err)
 		}
 	}
@@ -20,13 +20,14 @@ func InitDb() (*sql.DB, error) {
 	dbHost := os.Getenv("MYSQLHOST")
 	dbPort := os.Getenv("MYSQLPORT")
 	dbName := os.Getenv("MYSQLDATABASE")
-	
+
 	// Gunakan nilai variabel lingkungan untuk koneksi database
 	dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		log.Fatal("Error Connection to db", err)
+		log.Fatal("Error connecting to db:", err)
+		return nil, err
 	}
 
 	// Cek koneksi database
