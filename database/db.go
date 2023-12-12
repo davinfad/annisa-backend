@@ -24,7 +24,7 @@ func InitDb() (*sql.DB, error) {
 	// Gunakan nilai variabel lingkungan untuk koneksi database
 	dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
 
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/annisa")
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal("Error Connection to db", err)
 	}
